@@ -38,5 +38,21 @@ module.exports = {
         catch(err){
             ctx.throw(500, err)
         }
+    },
+    async destroy(ctx){
+        try {
+
+            const results = await ctx.db.Company.destroy({
+                where: {
+                    id: ctx.params.id
+                }
+            });
+
+            results === 0 ? ctx.throw(500,'invalid id provided') : ctx.body = `company is deleted with id ${ctx.params.id}`;
+
+        }
+        catch(err){
+            ctx.throw(500, err)
+        }
     }
 };
