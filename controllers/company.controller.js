@@ -16,12 +16,27 @@ module.exports = {
 
     },
     async find(ctx){
-        try{
+        try {
            ctx.body = await ctx.db.Company.findAll({});
 
         }
         catch (err){
-            throw err;
+            ctx.throw(500, err);
+        }
+    },
+    async findOne(ctx){
+        try {
+
+          const company = await ctx.db.Company.findOne({
+                id: ctx.params.id
+            });
+          if(!company){
+              ctx.throw(404, 'company id is invalid');
+          }
+          ctx.body = company;
+        }
+        catch(err){
+            ctx.throw(500, err)
         }
     }
 };
